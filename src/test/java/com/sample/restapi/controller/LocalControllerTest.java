@@ -58,6 +58,7 @@ public class LocalControllerTest {
         Mockito.when(localService.saveLocal(postLocal)).thenReturn(local);        
         mockMvc.perform(post("/saveLocal")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("X-API-Key", "SECRETO")
                         .content(content)
             ).andExpect(status().isOk());
         System.out.println(content);
