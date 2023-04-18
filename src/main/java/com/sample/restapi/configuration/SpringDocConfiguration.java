@@ -2,6 +2,7 @@ package com.sample.restapi.configuration;
 
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,6 +17,15 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 @Configuration
 public class SpringDocConfiguration {
 
+    @Value("${spring.profiles.active}")
+    private String environment;
+
+    @Value("${application-version}")
+    private String version;
+
+    @Value("${application-description}")
+    private String description;    
+
     @Bean
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
@@ -27,12 +37,15 @@ public class SpringDocConfiguration {
                         .name("X-API-Key")
                 )          )
                 .security(Arrays.asList(new SecurityRequirement().addList("api_key")))
-                .info(new Info().title("SpringShop API")
-                .description("Spring shop sample application")
-                .version("v1.0.0")
-                .license(new License().name("Apache 2.0").url("http://springdoc.org")))
+                .info(
+                    new Info()
+                        .version(version)
+                        .title(description)
+                        .description("<h3>Spring shop sample application (environment=<b>"+ environment + "</b>)</h3><h4>Info: This API requires an X-API-Key header</h4>")
+                        .license(new License().name("Apache 2.0").url("http://springdoc.org"))
+                )
                 .externalDocs(new ExternalDocumentation()
-                .description("SpringShop Wiki Documentation")
-                .url("https://springshop.wiki.github.org/docs"));
+                .description("Swagger Documentation")
+                .url("https://swagger.io/docs/"));
     }    
 }

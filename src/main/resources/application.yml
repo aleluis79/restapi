@@ -6,6 +6,8 @@ spring:
 springdoc:
     swagger-ui:
         use-root-path: false
+application-version: ^project.version^
+application-description: ^project.description^
 ---
 spring:
     config:
